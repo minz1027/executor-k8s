@@ -9,6 +9,34 @@
 npm install screwdriver-executor-k8s
 ```
 
+```javascript
+let Executor = require('screwdriver-executor-k8s');
+let execute = new Executor({
+    host: '10.0.0.50', // Defaults to kubernetes
+    token: 'token',
+    strictSSL: false // Defaults to true
+});
+
+// Start a build
+execute.start({
+    pipelineId: '992b5d666718483c9676361ebc685d122089e3eb',
+    jobId: '10fe0e40a62253967148ba17752d76d5912bf6b7',
+    buildId: 'd4391eea7f0a67fe788a05bb07de33e793134296',
+    scmUrl: 'git@github.com:screwdriver-cd/executor-k8s',
+    container: 'node:4'
+}, (err) => {
+    console.error(err);
+});
+
+// Stream the logs
+execute.logStream({
+    buildId: 'd4391eea7f0a67fe788a05bb07de33e793134296'
+}, (err, stream) => {
+    console.error(err);
+    resp.pipe(stream);
+});
+```
+
 ## Testing
 
 ```bash
